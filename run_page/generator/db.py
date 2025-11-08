@@ -27,7 +27,11 @@ def randomword():
 
 options.default_user_agent = "running_page"
 # reverse the location (lat, lon) -> location detail
-g = Nominatim(user_agent=randomword())
+g = Nominatim(
+    user_agent=randomword(),
+    timeout=30,  # 增加超时时间到30秒
+    # domain="nominatim.openstreetmap.org"  # 如果需要可以明确指定域名
+)
 
 
 ACTIVITY_KEYS = [
@@ -107,24 +111,24 @@ def update_or_create_activity(session, run_activity):
             location_country = getattr(run_activity, "location_country", "")
             # or China for #176 to fix
             if not location_country and start_point or location_country == "China":
-                try:
-                    location_country = str(
-                        g.reverse(
-                            f"{start_point.lat}, {start_point.lon}", language="zh-CN"  # type: ignore
-                        )
-                    )
-                # limit (only for the first time)
-                except Exception:
-                    try:
-                        location_country = str(
-                            g.reverse(
-                                f"{start_point.lat}, {start_point.lon}",
-                                language="zh-CN",  # type: ignore
-                            )
-                        )
-                    except Exception:
-                        pass
-
+                # try:
+                #     location_country = str(
+                #         g.reverse(
+                #             f"{start_point.lat}, {start_point.lon}", language="zh-CN"  # type: ignore
+                #         )
+                #     )
+                # # limit (only for the first time)
+                # except Exception:
+                #     try:
+                #         location_country = str(
+                #             g.reverse(
+                #                 f"{start_point.lat}, {start_point.lon}",
+                #                 language="zh-CN",  # type: ignore
+                #             )
+                #         )
+                #     except Exception:
+                #         pass
+                location_country = ""
             activity = Activity(
                 run_id=run_activity.id,
                 name=run_activity.name,
