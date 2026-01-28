@@ -45,8 +45,12 @@ const PRIVACY_MODE = false;
 // updated on 2024/11/17: lights are turned off by default
 //set to `false` if you want to make light off as default, only effect when `PRIVACY_MODE` = false
 const LIGHTS_ON = false;
-//set to `true` if you want to show the 'Elevation Gain' column
+// set to `true` if you want to show the 'Elevation Gain' column
 const SHOW_ELEVATION_GAIN = false;
+// auto hide map tiles when zoom level reaches this threshold
+// set to 0 to disable this feature, recommended value: 10-15
+// when zoom >= this value, only the route will be shown (like lights off)
+const AUTO_HIDE_MAP_AT_ZOOM = 12;
 // richer title for the activity types (like garmin style)
 const RICH_TITLE = false;
 
@@ -162,6 +166,7 @@ export {
   LIGHTS_ON,
   SHOW_ELEVATION_GAIN,
   RICH_TITLE,
+  AUTO_HIDE_MAP_AT_ZOOM,
   ACTIVITY_TYPES,
   ACTIVITY_TOTAL,
   HOME_PAGE_TITLE,
