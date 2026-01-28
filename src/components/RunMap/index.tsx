@@ -72,11 +72,14 @@ const RunMap = ({
 
   // Calculate actual lights state based on zoom level
   const currentZoom = viewState.zoom ?? 0;
-  const shouldAutoHide = AUTO_HIDE_MAP_AT_ZOOM > 0 && currentZoom >= AUTO_HIDE_MAP_AT_ZOOM;
-  const [manualLights, setManualLights] = useState(PRIVACY_MODE ? false : LIGHTS_ON);
+  const shouldAutoHide =
+    AUTO_HIDE_MAP_AT_ZOOM > 0 && currentZoom >= AUTO_HIDE_MAP_AT_ZOOM;
+  const [manualLights, setManualLights] = useState(
+    PRIVACY_MODE ? false : LIGHTS_ON
+  );
 
   // When auto-hide is triggered, force lights off; otherwise use manual control
-  const lights = PRIVACY_MODE ? false : (shouldAutoHide ? false : manualLights);
+  const lights = PRIVACY_MODE ? false : shouldAutoHide ? false : manualLights;
 
   // layers that should remain visible when lights are off
   const keepWhenLightsOff = ['runs2', 'animated-run'];
@@ -532,7 +535,9 @@ const RunMap = ({
       )}
       <span className={styles.runTitle}>{title}</span>
       <FullscreenControl style={fullscreenButton} />
-      {!PRIVACY_MODE && <LightsControl setLights={setManualLights} lights={manualLights} />}
+      {!PRIVACY_MODE && (
+        <LightsControl setLights={setManualLights} lights={manualLights} />
+      )}
       <NavigationControl
         showCompass={false}
         position={'bottom-right'}
